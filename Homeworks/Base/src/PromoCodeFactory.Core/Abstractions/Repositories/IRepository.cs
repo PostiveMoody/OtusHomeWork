@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CSharpFunctionalExtensions;
 using PromoCodeFactory.Core.Domain;
 
 namespace PromoCodeFactory.Core.Abstractions.Repositories
@@ -10,5 +11,12 @@ namespace PromoCodeFactory.Core.Abstractions.Repositories
         Task<IEnumerable<T>> GetAllAsync();
 
         Task<T> GetByIdAsync(Guid id);
+
+        Task<Guid> CreateAsync(T entity);
+
+        Task<T> UpdateAsync(Guid id, T entity);
+
+        Task<T> DeleteAsync(Guid id);
+
     }
 }

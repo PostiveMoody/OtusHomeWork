@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CSharpFunctionalExtensions;
 using PromoCodeFactory.Core.Abstractions.Repositories;
 using PromoCodeFactory.Core.Domain;
+using PromoCodeFactory.Core.Domain.Administration;
 namespace PromoCodeFactory.DataAccess.Repositories
 {
     public class InMemoryRepository<T>: IRepository<T> where T: BaseEntity
@@ -23,6 +25,30 @@ namespace PromoCodeFactory.DataAccess.Repositories
         public Task<T> GetByIdAsync(Guid id)
         {
             return Task.FromResult(Data.FirstOrDefault(x => x.Id == id));
+        }
+
+        public Task<Guid> CreateAsync(T entity)
+        {
+            Data.ToList().Add(entity);
+            return Task.FromResult(entity.Id);
+        }
+
+        public async Task<T> UpdateAsync(Guid id, T value)
+        {
+            var updatedItem = Data.FirstOrDefault(x => x.Id == id);
+
+            updatedItem = value;
+
+            return await Task.FromResult(updatedItem);
+        }
+
+        public Task<T> DeleteAsync(Guid id)
+        {
+            var deletedItem = Data.FirstOrDefault(employee => employee.Id == id);
+
+            Data = Data.Where(employee => employee.Id != id);
+
+            return Task.FromResult(deletedItem);
         }
     }
 }
